@@ -31,12 +31,18 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getGifs().then((map) {
-      print(map);
+      
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Image.network("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"),
+        centerTitle: true,
+      ),
+    );
   }
 }
