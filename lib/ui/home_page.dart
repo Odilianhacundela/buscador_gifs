@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, prefer_final_fields, unnecessary_null_comparison, curly_braces_in_flow_control_structures, unused_element
+// ignore_for_file: unused_local_variable, prefer_final_fields, unnecessary_null_comparison, curly_braces_in_flow_control_structures, unused_element, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:convert';
 
@@ -30,19 +30,60 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _getGifs().then((map) {
-      
-    });
+    _getGifs().then((map) {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Image.network(
+              "https://media.giphy.com/headers/2021-04-23-04-1619150653/OSCARS_BANNER_HP-2021.gif"),
+          centerTitle: true,
+        ),
         backgroundColor: Colors.black,
-        title: Image.network("https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"),
-        centerTitle: true,
-      ),
-    );
+        body: Column(
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                      labelText: "Pesquise aqui",
+                      labelStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder()),
+                  style: TextStyle(color: Colors.white, fontSize: 18.0),
+                )),
+            Expanded(
+              child: FutureBuilder(
+                  future: _getGifs(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                      case ConnectionState.none:
+                        return Container(
+                          width: 200.0,
+                          height: 200.0,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 5.0,
+                          ),
+                        );
+                      default:
+                        if (snapshot.hasError)
+                          return Container();
+                        else
+                          _createGifTable(context, snapshot);
+                    }
+                  }),
+            ),
+          ],
+        ));
+        
   }
+
+  Widget _createGifTable(BuildContext context, AsyncSnapshot, snapshot) {
+          
+}
 }
